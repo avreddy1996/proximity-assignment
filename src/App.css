@@ -7,6 +7,34 @@
   pointer-events: none;
 }
 
+/* starting ENTER animation */
+.messageout-enter {
+  position: absolute;
+  top: 0;
+  opacity: 0.01;
+  transition: opacity 200ms ease-in-out;
+
+}
+
+/* ending ENTER animation */
+.messageout-enter-active {
+  opacity: 1;
+  transition: opacity 200ms ease-in-out;
+}
+
+/* starting EXIT animation */
+.messageout-exit {
+  opacity: 1;
+  transition: opacity 200ms ease-in-out;
+
+}
+
+/* ending EXIT animation */
+.messageout-exit-active {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

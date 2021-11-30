@@ -17,6 +17,10 @@ You will also see any lint errors in the console.
 ### `yarn deploy`
 Deploys the application using gh-pages module
 
+Currently this Project is deployed
+[here using gh-pages](https://avreddy1996.github.io/proximity-assignment/) \
+https://avreddy1996.github.io/proximity-assignment/
+
 # Problem Statemet
 Deploy A SPA to display live air quality index monitoring data.
 

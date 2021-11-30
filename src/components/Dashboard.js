@@ -13,7 +13,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
-import {VictoryChart,VictoryLine,VictoryTheme,VictoryZoomContainer} from "victory"
+import {VictoryChart,VictoryLine,VictoryTheme,VictoryZoomContainer,VictoryGroup} from "victory"
 
 
 
@@ -24,12 +24,16 @@ const StyledButton = styled(Button)(({theme})=>({
 
 var start=new Date();
 var citiesData = {};
+var aqiDataTemp = {};
+var colorsTemp = {};
 const Dashboard = () => {
     const [loading, setLoading] = useState(true);
     const [cities, setCities] = useState({});
     const [aqiData, setAqiData] = useState({});
-    const [selectedCity, setSelectedCity] = useState('');
+    const [selectedCity, setSelectedCity] = useState([]);
     const [chartData, setChartData] = useState([]);
+    const [anotherChartData,setAnotherChartData] = useState([]);
+    const [colors, setColors] = useState({});
     const [zoomDomain, setZoomDomain] = useState([new Date(new Date().setTime(new Date().getTime() - 10)), new Date()]);
     const chart = useRef(null);
     const getAqiIndex = (aqiValue) => {
@@ -60,8 +64,7 @@ const Dashboard = () => {
         // Do nothing if event is triggered more than once in a second
         if(((new Date()).getTime() - start.getTime()) > 1000){
             let data = JSON.parse(event.data);
-            console.log(Object.keys(cities));
-            // citiesData = {...cities};
+            // console.log(Object.keys(cities));
             data.forEach(dataItem => {
                 let aqi = parseFloat(dataItem.aqi.toFixed(2));
                 if (citiesData[dataItem.city] && citiesData[dataItem.city].length>0) {
@@ -75,21 +78,19 @@ const Dashboard = () => {
                         value:aqi
                     }]
                 }
-                aqiData[dataItem.city] = {
+                aqiDataTemp[dataItem.city] = {
                     aqi: aqi,
                     updated_at: Date.now(),
                     ...getAqiIndex(aqi)
                 }
             })
-            // console.log(Object.keys(cities));
             setCities({...cities,...citiesData});
-            setAqiData({...aqiData});
-            // console.log(start.getTime()-(new Date()).getTime());
+            setAqiData({...aqiData,...aqiDataTemp});
             start=new Date();
         }
     }
     const handleZoom=(domain)=>{
-        setZoomDomain(domain)
+        setZoomDomain(domain.x)
     }
     useEffect(() => {
         const socket = new WebSocket('ws://city-ws.herokuapp.com');
@@ -106,19 +107,32 @@ const Dashboard = () => {
             chart.current.scrollIntoView();
         }
     },[selectedCity])
-    useEffect(()=>{
-        if(selectedCity && chartData !== cities[selectedCity]){
+    // useEffect(()=>{
+    //     if(selectedCity && chartData !== cities[selectedCity]){
+    //
+    //         console.log("sd",cities[selectedCity])
+    //         if(!cities[selectedCity]){
+    //             console.log(cities,selectedCity)
+    //         }
+    //         setChartData([...cities[selectedCity]])
+    //     }
+    // },[selectedCity,cities])
+    // useEffect(()=>{
+    //     console.log(chartData);
+    // },[chartData])
 
-            console.log("sd",cities[selectedCity])
-            if(!cities[selectedCity]){
-                console.log(cities,selectedCity)
-            }
-            setChartData([...cities[selectedCity]])
-        }
-    },[selectedCity,cities])
-    useEffect(()=>{
-        console.log(chartData);
-    },[chartData])
+    const handleTrackClick = (key)=>{
+        let s = selectedCity
+        s.push(key);
+        colorsTemp[key] = '#'+(Math.random().toString(16)+'00000').slice(2,8);
+        setSelectedCity([...s]);
+        setColors({...colors,...colorsTemp});
+    }
+    const handleRemoveSelectedCity = (index)=>{
+        let s = selectedCity;
+        s.splice(index,1)
+        setSelectedCity([...s]);
+    }
     return (
         <div>
             <TableContainer component={Paper} sx={{maxWidth:'960px',width:'95%',margin:'2rem auto'}}>
@@ -145,7 +159,7 @@ const Dashboard = () => {
                                     </div>
                                 </TableCell>
                                 <TableCell>
-                                    <StyledButton variant={"outlined"} onClick={()=>setSelectedCity(key)}>Live Tracking</StyledButton>
+                                    <StyledButton variant={"outlined"} onClick={()=>handleTrackClick(key)}>Live Tracking</StyledButton>
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -153,32 +167,48 @@ const Dashboard = () => {
                 </Table>
             </TableContainer>
             {
-                selectedCity &&
-                <div style={{width:'500px', margin:'1rem auto 3rem auto'}} ref={chart}>
-                    <VictoryChart
-                    containerComponent={
-                        <VictoryZoomContainer
-                            zoomDimension="x"
-                            zoomDomain={zoomDomain}
-                            onZoomDomainChange={handleZoom}
-                        />
-                    }
-                >
-                    <VictoryLine
-                        data={chartData}
-                        x={"updated_at"}
-                        y={"value"}
-                    />
-                </VictoryChart>
-                    <br />
-                    <strong>Live AQI of {selectedCity}</strong>
-                </div>
-                // <div style={{width:'100px',height:'20px'}} >
-                //     <Sparklines data={cities[selectedCity]} limit={5} width={100} height={20} margin={5}>
-                //         <SparklinesLine color="blue" />
-                //         <SparklinesSpots />
-                //     </Sparklines>
-                // </div>
+                selectedCity && selectedCity.length>0 &&
+                        <div style={{width:'960px', margin:'1rem auto 3rem auto',display:'flex',alignItems:'center',justifyContent:'center'}} ref={chart}>
+                            <div>
+                            <VictoryChart
+                                domainPadding={{x:0,y:10}}
+                                containerComponent={
+                                    <VictoryZoomContainer
+                                        zoomDimension="x"
+                                        zoomDomain={zoomDomain}
+                                        onZoomDomainChange={handleZoom}
+                                    />
+                                }
+                            >
+                                <VictoryGroup>
+                                    {
+                                        selectedCity.map((x)=>(
+                                            <VictoryLine
+                                                animate={{
+                                                    duration: 500,
+                                                    onLoad: { duration: 500 }
+                                                }}
+                                                style={{data: {stroke: colors[x]}}}
+                                                data={cities[x]}
+                                                x={"updated_at"}
+                                                y={"value"}
+                                            />
+                                        ))
+                                    }
+                                </VictoryGroup>
+
+                            </VictoryChart>
+                            <br />
+                            <strong>Live AQI</strong>
+                            </div>
+                            <div style={{display:'flex',flexDirection:'column',alignItems:'start'}}>
+                                {
+                                    selectedCity.map((city,index)=>(
+                                        <strong style={{color:colors[city],margin:'0.25rem'}}>{city}<span style={{color:'red',cursor:'pointer'}} onClick={()=>handleRemoveSelectedCity(index)}>&nbsp;&nbsp;X&nbsp;&nbsp;</span></strong>
+                                    ))
+                                }
+                            </div>
+                        </div>
             }
         </div>
     )

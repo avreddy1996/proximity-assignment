@@ -92,7 +92,7 @@ const Dashboard = () => {
         setZoomDomain(domain.x)
     }
     useEffect(() => {
-        const socket = new WebSocket('ws://city-ws.herokuapp.com');
+        const socket = new WebSocket('wss://city-ws.herokuapp.com');
         socket.onopen = () => {
             setLoading(false);
         };

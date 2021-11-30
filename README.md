@@ -14,6 +14,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
 
+### `yarn deploy`
+Deploys the application using gh-pages module
+
 # Problem Statemet
 Deploy A SPA to display live air quality index monitoring data.
 

@@ -18,8 +18,8 @@ import {VictoryChart,VictoryLine,VictoryTheme,VictoryZoomContainer,VictoryGroup}
 
 
 const StyledButton = styled(Button)(({theme})=>({
-    color: theme.palette.getContrastText(grey[800]),
-
+    color: '#000',
+    borderColor:'#000'
 }))
 
 var start=new Date();

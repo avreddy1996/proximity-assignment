@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/static/css/main.0e609a87.chunk.css",
-    "main.js": "/static/js/main.8ab06b5e.chunk.js",
-    "main.js.map": "/static/js/main.8ab06b5e.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.63c3bd42.js",
-    "runtime-main.js.map": "/static/js/runtime-main.63c3bd42.js.map",
-    "static/js/2.210e05cf.chunk.js": "/static/js/2.210e05cf.chunk.js",
-    "static/js/2.210e05cf.chunk.js.map": "/static/js/2.210e05cf.chunk.js.map",
-    "index.html": "/index.html",
-    "static/css/main.0e609a87.chunk.css.map": "/static/css/main.0e609a87.chunk.css.map",
-    "static/js/2.210e05cf.chunk.js.LICENSE.txt": "/static/js/2.210e05cf.chunk.js.LICENSE.txt"
+    "main.css": "/proximity-assignment/static/css/main.0e609a87.chunk.css",
+    "main.js": "/proximity-assignment/static/js/main.8ab06b5e.chunk.js",
+    "main.js.map": "/proximity-assignment/static/js/main.8ab06b5e.chunk.js.map",
+    "runtime-main.js": "/proximity-assignment/static/js/runtime-main.fc47dcd8.js",
+    "runtime-main.js.map": "/proximity-assignment/static/js/runtime-main.fc47dcd8.js.map",
+    "static/js/2.210e05cf.chunk.js": "/proximity-assignment/static/js/2.210e05cf.chunk.js",
+    "static/js/2.210e05cf.chunk.js.map": "/proximity-assignment/static/js/2.210e05cf.chunk.js.map",
+    "index.html": "/proximity-assignment/index.html",
+    "static/css/main.0e609a87.chunk.css.map": "/proximity-assignment/static/css/main.0e609a87.chunk.css.map",
+    "static/js/2.210e05cf.chunk.js.LICENSE.txt": "/proximity-assignment/static/js/2.210e05cf.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.63c3bd42.js",
+    "static/js/runtime-main.fc47dcd8.js",
     "static/js/2.210e05cf.chunk.js",
     "static/css/main.0e609a87.chunk.css",
     "static/js/main.8ab06b5e.chunk.js"

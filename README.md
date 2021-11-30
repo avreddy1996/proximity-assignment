@@ -18,4 +18,11 @@ You will also see any lint errors in the console.
 Deploy A SPA to display live air quality index monitoring data.
 
 # Approach
-I am using React Application here bootstrapped by create-react-app scaffolding code
+I am using React Application here bootstrapped by create-react-app scaffolding code.\
+All the logic related to application resides in Dashboard.js component file.\
+I am listing all the cities along with updated AQI index to corresponding city name in a tabular format for easy viewing along with categroy color as background.\
+Each City row has an actionable to track its index and visualise in graphical format.
+
+# Third party modules used
+Victory Charts - for visualising live tracking data of AQI and also for comparing different cities AQI data.\
+Material UI - for table and button components
